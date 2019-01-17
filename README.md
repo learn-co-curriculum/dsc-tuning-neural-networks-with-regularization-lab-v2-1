@@ -19,10 +19,10 @@ In this lab, we'll use the notion of training/validation/test set to get better 
 You will be able to:
 
 * Construct and run a basic model in Keras
-* Construct a validation set and explain potential benefits.
-* Apply L1 and L2 regularization.
-* Aplly dropout regularization.
-* Observe and comment on the effect of using more data.
+* Construct a validation set and explain potential benefits
+* Apply L1 and L2 regularization
+* Aplly dropout regularization
+* Observe and comment on the effect of using more data
 
 ## Import the libraries
 
@@ -31,20 +31,7 @@ As usual, start by importing some of the packages and modules that you intend to
 
 ```python
 #Your code here; import some packages/modules you plan to use
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
-import random
-from sklearn.model_selection import train_test_split
-from keras.utils.np_utils import to_categorical
-from sklearn import preprocessing
-from keras.preprocessing.text import Tokenizer
 ```
-
-    /Users/matthew.mitchell/anaconda3/lib/python3.6/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
-      from ._conv import register_converters as _register_converters
-    Using TensorFlow backend.
-
 
 ## Load the Data
 
@@ -53,67 +40,7 @@ As with the previous lab, the data is stored in a file **Bank_complaints.csv**. 
 
 ```python
 #Your code here; load and preview the dataset
-
-df = pd.read_csv('Bank_complaints.csv')
-df.head()
 ```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Product</th>
-      <th>Consumer complaint narrative</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Student loan</td>
-      <td>In XX/XX/XXXX I filled out the Fedlaon applica...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Student loan</td>
-      <td>I am being contacted by a debt collector for p...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Student loan</td>
-      <td>I cosigned XXXX student loans at SallieMae for...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Student loan</td>
-      <td>Navient has sytematically and illegally failed...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Student loan</td>
-      <td>My wife became eligible for XXXX Loan Forgiven...</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
 
 ## Preprocessing Overview
 
@@ -133,11 +60,6 @@ Generate the random sample using seed 123 for consistency of results. Make your 
 
 ```python
 #Your code here
-random.seed(123)
-df = df.sample(10000)
-df.index = range(10000)
-product = df["Product"]
-complaints = df["Consumer complaint narrative"]
 ```
 
 ## Preprocessing: One-hot Encoding of the Complaints
@@ -150,21 +72,7 @@ Only keep 2,000 most common words and use one-hot encoding to reformat the compl
 ```python
 #Your code here; use one-hot encoding to reformat the complaints into a matrix of vectors.
 #Only keep the 2000 most common words.
-
-tokenizer = Tokenizer(num_words=2000)
-tokenizer.fit_on_texts(complaints)
-
-one_hot_results= tokenizer.texts_to_matrix(complaints, mode='binary')
-word_index = tokenizer.word_index
-np.shape(one_hot_results)
 ```
-
-
-
-
-    (10000, 2000)
-
-
 
 ## Preprocessing: Encoding the Products
 
@@ -175,12 +83,7 @@ Similarly, now transform the descriptive product labels to integers labels. Afte
 
 ```python
 #Your code here; transform the product labels to numerical values
-le = preprocessing.LabelEncoder()
-le.fit(product)
-product_cat = le.transform(product) 
-
 #Then transform these integer values into a matrix of binary flags
-product_onehot = to_categorical(product_cat)
 ```
 
 ## Train-test Split
@@ -189,15 +92,11 @@ Now onto the ever familiar train-test split! Be sure to split both the complaint
 
 
 ```python
-X_train, X_test, y_train, y_test = train_test_split(one_hot_results, product_onehot, test_size=1500, random_state=42)
-
-#Alternative custom script:
-# random.seed(123)
-# test_index = random.sample(range(1,10000), 1500)
-# test = one_hot_results[test_index]
-# train = np.delete(one_hot_results, test_index, 0)
-# label_test = product_onehot[test_index]
-# label_train = np.delete(product_onehot, test_index, 0)
+#Your code here
+X_train = 
+X_test = 
+y_train = 
+y_test = 
 ```
 
 ## Running the model using a validation set.
@@ -210,6 +109,7 @@ In this example, let's take the first 1000 cases out of the training set to beco
 
 
 ```python
+#Just run this block of code 
 random.seed(123)
 val = X_train[:1000]
 train_final = X_train[1000:]
@@ -228,13 +128,7 @@ Recall that we used 2 hidden with 50 units in the first layer and 25 in the seco
 
 ```python
 #Your code here; build a neural network using Keras as described above.
-random.seed(123)
-from keras import models
-from keras import layers
-model = models.Sequential()
-model.add(layers.Dense(50, activation='relu', input_shape=(2000,))) #2 hidden layers
-model.add(layers.Dense(25, activation='relu'))
-model.add(layers.Dense(7, activation='softmax'))
+model = 
 ```
 
 ## Compiling the Model
@@ -243,10 +137,11 @@ In the compiler, you'll be passing the optimizer, loss function, and metrics. Tr
 
 ```python
 #Your code here
-model.compile(optimizer='SGD',
-              loss='categorical_crossentropy',
-              metrics=['accuracy'])
 ```
+
+## Part 2: Code Along
+
+The remaining portion of this lab will introduce you to code snippets for a myriad of different methods discussed in the lecture.
 
 ## Training the Model
 
@@ -254,255 +149,13 @@ Ok, now for the resource intensive part: time to train our model! Note that this
 
 
 ```python
+#Code provided; note the extra validation parameter passed.
 model_val = model.fit(train_final,
                     label_train_final,
                     epochs=120,
                     batch_size=256,
                     validation_data=(val, label_val))
 ```
-
-    Train on 7500 samples, validate on 1000 samples
-    Epoch 1/120
-    7500/7500 [==============================] - 1s 71us/step - loss: 1.9372 - acc: 0.1848 - val_loss: 1.9234 - val_acc: 0.2070
-    Epoch 2/120
-    7500/7500 [==============================] - 0s 18us/step - loss: 1.9128 - acc: 0.2172 - val_loss: 1.9009 - val_acc: 0.2180
-    Epoch 3/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 1.8898 - acc: 0.2355 - val_loss: 1.8783 - val_acc: 0.2390
-    Epoch 4/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 1.8655 - acc: 0.2589 - val_loss: 1.8528 - val_acc: 0.2640
-    Epoch 5/120
-    7500/7500 [==============================] - 0s 20us/step - loss: 1.8377 - acc: 0.2865 - val_loss: 1.8239 - val_acc: 0.2790
-    Epoch 6/120
-    7500/7500 [==============================] - 0s 17us/step - loss: 1.8057 - acc: 0.3081 - val_loss: 1.7894 - val_acc: 0.3090
-    Epoch 7/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 1.7687 - acc: 0.3404 - val_loss: 1.7493 - val_acc: 0.3580
-    Epoch 8/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 1.7269 - acc: 0.3715 - val_loss: 1.7046 - val_acc: 0.3880
-    Epoch 9/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 1.6816 - acc: 0.4024 - val_loss: 1.6564 - val_acc: 0.4020
-    Epoch 10/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 1.6329 - acc: 0.4280 - val_loss: 1.6056 - val_acc: 0.4350
-    Epoch 11/120
-    7500/7500 [==============================] - 0s 17us/step - loss: 1.5815 - acc: 0.4576 - val_loss: 1.5529 - val_acc: 0.4640
-    Epoch 12/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 1.5291 - acc: 0.4861 - val_loss: 1.4988 - val_acc: 0.4930
-    Epoch 13/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 1.4766 - acc: 0.5100 - val_loss: 1.4474 - val_acc: 0.5060
-    Epoch 14/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 1.4251 - acc: 0.5315 - val_loss: 1.3938 - val_acc: 0.5480
-    Epoch 15/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 1.3746 - acc: 0.5513 - val_loss: 1.3445 - val_acc: 0.5510
-    Epoch 16/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 1.3265 - acc: 0.5660 - val_loss: 1.2958 - val_acc: 0.5730
-    Epoch 17/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 1.2798 - acc: 0.5799 - val_loss: 1.2489 - val_acc: 0.5960
-    Epoch 18/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 1.2349 - acc: 0.5987 - val_loss: 1.2040 - val_acc: 0.6090
-    Epoch 19/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 1.1924 - acc: 0.6107 - val_loss: 1.1630 - val_acc: 0.6200
-    Epoch 20/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 1.1520 - acc: 0.6309 - val_loss: 1.1233 - val_acc: 0.6410
-    Epoch 21/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 1.1139 - acc: 0.6456 - val_loss: 1.0871 - val_acc: 0.6450
-    Epoch 22/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 1.0782 - acc: 0.6617 - val_loss: 1.0537 - val_acc: 0.6690
-    Epoch 23/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 1.0444 - acc: 0.6736 - val_loss: 1.0235 - val_acc: 0.6680
-    Epoch 24/120
-    7500/7500 [==============================] - 0s 18us/step - loss: 1.0134 - acc: 0.6791 - val_loss: 0.9938 - val_acc: 0.6770
-    Epoch 25/120
-    7500/7500 [==============================] - 0s 17us/step - loss: 0.9842 - acc: 0.6896 - val_loss: 0.9656 - val_acc: 0.6810
-    Epoch 26/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.9566 - acc: 0.6947 - val_loss: 0.9383 - val_acc: 0.6930
-    Epoch 27/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.9310 - acc: 0.7033 - val_loss: 0.9152 - val_acc: 0.6940
-    Epoch 28/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.9068 - acc: 0.7080 - val_loss: 0.8941 - val_acc: 0.7050
-    Epoch 29/120
-    7500/7500 [==============================] - 0s 17us/step - loss: 0.8847 - acc: 0.7148 - val_loss: 0.8731 - val_acc: 0.7070
-    Epoch 30/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.8638 - acc: 0.7221 - val_loss: 0.8551 - val_acc: 0.7120
-    Epoch 31/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.8440 - acc: 0.7269 - val_loss: 0.8384 - val_acc: 0.7190
-    Epoch 32/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.8260 - acc: 0.7303 - val_loss: 0.8205 - val_acc: 0.7190
-    Epoch 33/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.8083 - acc: 0.7336 - val_loss: 0.8048 - val_acc: 0.7240
-    Epoch 34/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.7918 - acc: 0.7380 - val_loss: 0.7903 - val_acc: 0.7360
-    Epoch 35/120
-    7500/7500 [==============================] - 0s 18us/step - loss: 0.7765 - acc: 0.7428 - val_loss: 0.7772 - val_acc: 0.7320
-    Epoch 36/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.7618 - acc: 0.7464 - val_loss: 0.7656 - val_acc: 0.7430
-    Epoch 37/120
-    7500/7500 [==============================] - 0s 17us/step - loss: 0.7483 - acc: 0.7465 - val_loss: 0.7549 - val_acc: 0.7430
-    Epoch 38/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.7354 - acc: 0.7524 - val_loss: 0.7444 - val_acc: 0.7350
-    Epoch 39/120
-    7500/7500 [==============================] - 0s 17us/step - loss: 0.7230 - acc: 0.7537 - val_loss: 0.7326 - val_acc: 0.7460
-    Epoch 40/120
-    7500/7500 [==============================] - 0s 17us/step - loss: 0.7109 - acc: 0.7557 - val_loss: 0.7218 - val_acc: 0.7470
-    Epoch 41/120
-    7500/7500 [==============================] - 0s 17us/step - loss: 0.7001 - acc: 0.7591 - val_loss: 0.7142 - val_acc: 0.7500
-    Epoch 42/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.6895 - acc: 0.7619 - val_loss: 0.7057 - val_acc: 0.7540
-    Epoch 43/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.6797 - acc: 0.7677 - val_loss: 0.6970 - val_acc: 0.7500
-    Epoch 44/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.6702 - acc: 0.7663 - val_loss: 0.6891 - val_acc: 0.7570
-    Epoch 45/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.6608 - acc: 0.7712 - val_loss: 0.6835 - val_acc: 0.7540
-    Epoch 46/120
-    7500/7500 [==============================] - 0s 17us/step - loss: 0.6518 - acc: 0.7724 - val_loss: 0.6824 - val_acc: 0.7570
-    Epoch 47/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.6433 - acc: 0.7748 - val_loss: 0.6710 - val_acc: 0.7630
-    Epoch 48/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.6353 - acc: 0.7775 - val_loss: 0.6642 - val_acc: 0.7620
-    Epoch 49/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.6269 - acc: 0.7812 - val_loss: 0.6593 - val_acc: 0.7610
-    Epoch 50/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.6197 - acc: 0.7855 - val_loss: 0.6546 - val_acc: 0.7620
-    Epoch 51/120
-    7500/7500 [==============================] - 0s 17us/step - loss: 0.6125 - acc: 0.7880 - val_loss: 0.6490 - val_acc: 0.7620
-    Epoch 52/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.6052 - acc: 0.7897 - val_loss: 0.6444 - val_acc: 0.7690
-    Epoch 53/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.5981 - acc: 0.7919 - val_loss: 0.6391 - val_acc: 0.7630
-    Epoch 54/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.5909 - acc: 0.7952 - val_loss: 0.6347 - val_acc: 0.7650
-    Epoch 55/120
-    7500/7500 [==============================] - 0s 18us/step - loss: 0.5846 - acc: 0.7959 - val_loss: 0.6344 - val_acc: 0.7650
-    Epoch 56/120
-    7500/7500 [==============================] - 0s 17us/step - loss: 0.5786 - acc: 0.7995 - val_loss: 0.6285 - val_acc: 0.7650
-    Epoch 57/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.5719 - acc: 0.8032 - val_loss: 0.6258 - val_acc: 0.7730
-    Epoch 58/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.5663 - acc: 0.8025 - val_loss: 0.6218 - val_acc: 0.7750
-    Epoch 59/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.5606 - acc: 0.8077 - val_loss: 0.6164 - val_acc: 0.7710
-    Epoch 60/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.5544 - acc: 0.8083 - val_loss: 0.6147 - val_acc: 0.7640
-    Epoch 61/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.5493 - acc: 0.8107 - val_loss: 0.6109 - val_acc: 0.7780
-    Epoch 62/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.5432 - acc: 0.8121 - val_loss: 0.6064 - val_acc: 0.7730
-    Epoch 63/120
-    7500/7500 [==============================] - 0s 18us/step - loss: 0.5378 - acc: 0.8135 - val_loss: 0.6056 - val_acc: 0.7770
-    Epoch 64/120
-    7500/7500 [==============================] - 0s 20us/step - loss: 0.5329 - acc: 0.8153 - val_loss: 0.6031 - val_acc: 0.7750
-    Epoch 65/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.5276 - acc: 0.8183 - val_loss: 0.6000 - val_acc: 0.7760
-    Epoch 66/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.5222 - acc: 0.8209 - val_loss: 0.6003 - val_acc: 0.7730
-    Epoch 67/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.5177 - acc: 0.8203 - val_loss: 0.5945 - val_acc: 0.7750
-    Epoch 68/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.5122 - acc: 0.8221 - val_loss: 0.5925 - val_acc: 0.7830
-    Epoch 69/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.5081 - acc: 0.8243 - val_loss: 0.5901 - val_acc: 0.7730
-    Epoch 70/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.5029 - acc: 0.8256 - val_loss: 0.5890 - val_acc: 0.7750
-    Epoch 71/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.4987 - acc: 0.8289 - val_loss: 0.5869 - val_acc: 0.7760
-    Epoch 72/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.4939 - acc: 0.8295 - val_loss: 0.5846 - val_acc: 0.7730
-    Epoch 73/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.4899 - acc: 0.8328 - val_loss: 0.5844 - val_acc: 0.7780
-    Epoch 74/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.4847 - acc: 0.8333 - val_loss: 0.5821 - val_acc: 0.7750
-    Epoch 75/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.4806 - acc: 0.8339 - val_loss: 0.5811 - val_acc: 0.7770
-    Epoch 76/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.4767 - acc: 0.8368 - val_loss: 0.5789 - val_acc: 0.7780
-    Epoch 77/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.4721 - acc: 0.8380 - val_loss: 0.5770 - val_acc: 0.7770
-    Epoch 78/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.4681 - acc: 0.8403 - val_loss: 0.5753 - val_acc: 0.7770
-    Epoch 79/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.4640 - acc: 0.8421 - val_loss: 0.5730 - val_acc: 0.7770
-    Epoch 80/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.4598 - acc: 0.8429 - val_loss: 0.5721 - val_acc: 0.7750
-    Epoch 81/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.4560 - acc: 0.8448 - val_loss: 0.5694 - val_acc: 0.7820
-    Epoch 82/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.4520 - acc: 0.8456 - val_loss: 0.5699 - val_acc: 0.7750
-    Epoch 83/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.4479 - acc: 0.8477 - val_loss: 0.5677 - val_acc: 0.7800
-    Epoch 84/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.4442 - acc: 0.8496 - val_loss: 0.5663 - val_acc: 0.7800
-    Epoch 85/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.4405 - acc: 0.8500 - val_loss: 0.5657 - val_acc: 0.7850
-    Epoch 86/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.4368 - acc: 0.8525 - val_loss: 0.5658 - val_acc: 0.7800
-    Epoch 87/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.4337 - acc: 0.8563 - val_loss: 0.5640 - val_acc: 0.7830
-    Epoch 88/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.4296 - acc: 0.8549 - val_loss: 0.5632 - val_acc: 0.7770
-    Epoch 89/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.4259 - acc: 0.8572 - val_loss: 0.5620 - val_acc: 0.7800
-    Epoch 90/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.4224 - acc: 0.8575 - val_loss: 0.5602 - val_acc: 0.7820
-    Epoch 91/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.4188 - acc: 0.8613 - val_loss: 0.5594 - val_acc: 0.7830
-    Epoch 92/120
-    7500/7500 [==============================] - 0s 22us/step - loss: 0.4156 - acc: 0.8637 - val_loss: 0.5608 - val_acc: 0.7890
-    Epoch 93/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.4121 - acc: 0.8603 - val_loss: 0.5592 - val_acc: 0.7760
-    Epoch 94/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.4083 - acc: 0.8640 - val_loss: 0.5587 - val_acc: 0.7860
-    Epoch 95/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.4056 - acc: 0.8663 - val_loss: 0.5585 - val_acc: 0.7790
-    Epoch 96/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.4022 - acc: 0.8659 - val_loss: 0.5564 - val_acc: 0.7850
-    Epoch 97/120
-    7500/7500 [==============================] - 0s 20us/step - loss: 0.3989 - acc: 0.8676 - val_loss: 0.5569 - val_acc: 0.7860
-    Epoch 98/120
-    7500/7500 [==============================] - 0s 17us/step - loss: 0.3952 - acc: 0.8705 - val_loss: 0.5563 - val_acc: 0.7810
-    Epoch 99/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.3923 - acc: 0.8709 - val_loss: 0.5570 - val_acc: 0.7810
-    Epoch 100/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.3890 - acc: 0.8737 - val_loss: 0.5551 - val_acc: 0.7870
-    Epoch 101/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.3857 - acc: 0.8748 - val_loss: 0.5569 - val_acc: 0.7810
-    Epoch 102/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.3833 - acc: 0.8743 - val_loss: 0.5548 - val_acc: 0.7810
-    Epoch 103/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.3802 - acc: 0.8764 - val_loss: 0.5518 - val_acc: 0.7860
-    Epoch 104/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.3767 - acc: 0.8788 - val_loss: 0.5539 - val_acc: 0.7850
-    Epoch 105/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.3737 - acc: 0.8803 - val_loss: 0.5522 - val_acc: 0.7840
-    Epoch 106/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.3710 - acc: 0.8803 - val_loss: 0.5518 - val_acc: 0.7820
-    Epoch 107/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.3677 - acc: 0.8844 - val_loss: 0.5560 - val_acc: 0.7860
-    Epoch 108/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.3652 - acc: 0.8829 - val_loss: 0.5510 - val_acc: 0.7860
-    Epoch 109/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.3623 - acc: 0.8859 - val_loss: 0.5557 - val_acc: 0.7880
-    Epoch 110/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.3593 - acc: 0.8865 - val_loss: 0.5500 - val_acc: 0.7830
-    Epoch 111/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.3568 - acc: 0.8884 - val_loss: 0.5503 - val_acc: 0.7910
-    Epoch 112/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.3541 - acc: 0.8876 - val_loss: 0.5511 - val_acc: 0.7840
-    Epoch 113/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.3508 - acc: 0.8871 - val_loss: 0.5482 - val_acc: 0.7850
-    Epoch 114/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.3484 - acc: 0.8920 - val_loss: 0.5492 - val_acc: 0.7860
-    Epoch 115/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.3457 - acc: 0.8919 - val_loss: 0.5492 - val_acc: 0.7880
-    Epoch 116/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.3431 - acc: 0.8925 - val_loss: 0.5486 - val_acc: 0.7850
-    Epoch 117/120
-    7500/7500 [==============================] - 0s 14us/step - loss: 0.3403 - acc: 0.8944 - val_loss: 0.5481 - val_acc: 0.7860
-    Epoch 118/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.3379 - acc: 0.8948 - val_loss: 0.5505 - val_acc: 0.7840
-    Epoch 119/120
-    7500/7500 [==============================] - 0s 16us/step - loss: 0.3351 - acc: 0.8968 - val_loss: 0.5505 - val_acc: 0.7890
-    Epoch 120/120
-    7500/7500 [==============================] - 0s 15us/step - loss: 0.3328 - acc: 0.8963 - val_loss: 0.5524 - val_acc: 0.7920
-
 
 ## Retrieving Performance Results: the `history` dictionary
 
@@ -565,7 +218,7 @@ Note that the result isn't exactly the same as before. Note that this because th
 
 ## Plotting the Results
 
-Let's plot the result similarly to what we have done in the previous lab. This time though, let's iclude the training and the validation loss in the same plot. We'll do the same thing for the training and validation accuracy.
+Let's plot the result similarly to what we have done in the previous lab. This time though, let's include the training and the validation loss in the same plot. We'll do the same thing for the training and validation accuracy.
 
 
 ```python
@@ -587,7 +240,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_36_0.png)
+![png](index_files/index_37_0.png)
 
 
 
@@ -607,7 +260,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_37_0.png)
+![png](index_files/index_38_0.png)
 
 
 We observe an interesting pattern here: although the training accuracy keeps increasing when going through more epochs, and the training loss keeps decreasing, the validation accuracy and loss seem to be reaching a status quo around the 60th epoch. This means that we're actually **overfitting** to the train data when we do as many epochs as we were doing. Luckily, you learned how to tackle overfitting in the previous lecture! For starters, it does seem clear that we are training too long. So let's stop training at the 60th epoch first (so-called "early stopping") before we move to more advanced regularization techniques!
@@ -1106,7 +759,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_52_0.png)
+![png](index_files/index_53_0.png)
 
 
 The results of L2 regularization are quite disappointing here. We notice the discrepancy between validation and training accuracy seems to have decreased slightly, but the end result is definitely not getting better. 
@@ -1396,7 +1049,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_57_0.png)
+![png](index_files/index_58_0.png)
 
 
 Notice how The training and validation accuracy don't diverge as much as before! Unfortunately, the validation accuracy doesn't reach rates much higher than 70%. It does seem like we can still improve the model by training much longer.
@@ -3442,7 +3095,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_60_0.png)
+![png](index_files/index_61_0.png)
 
 
 
