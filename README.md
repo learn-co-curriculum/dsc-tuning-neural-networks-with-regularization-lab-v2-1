@@ -19,10 +19,10 @@ In this lab, we'll use the notion of training/validation/test set to get better 
 You will be able to:
 
 * Construct and run a basic model in Keras
-* Construct a validation set and explain potential benefits.
-* Apply L1 and L2 regularization.
-* Aplly dropout regularization.
-* Observe and comment on the effect of using more data.
+* Construct a validation set and explain potential benefits
+* Apply L1 and L2 regularization
+* Aplly dropout regularization
+* Observe and comment on the effect of using more data
 
 ## Import the libraries
 
