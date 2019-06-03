@@ -3,16 +3,13 @@
 
 ## Introduction
 
-Recall from the last lab that we had a training accuracy close to 90% and a test set accuracy close to 76%.
+Recall from the last lab that you had a training accuracy close to 90% and a test set accuracy close to 76%.
 
-As with our previous machine learning work, we should be asking a couple of questions:
+As with your previous machine learning work, you should be asking a couple of questions:
 - Is there a high bias? yes/no
-- Is there a high variance? yes/no
+- Is there a high variance? yes/no 
 
-Also recall that "high bias" is a relative concept. Knowing we have 7 classes and the topics are related, we'll assume that a 90% accuracy is pretty good and the bias on the training set is low. (We've also discussed concepts like precision, recall as well as AUC and ROC curves.)   
-
-In this lab, we'll use the notion of training/validation/test set to get better insights of how we can mitigate our variance, and we'll look at a few regularization techniques. You'll start by repeating the process from the last section: importing the data and performing preprocessing including one-hot encoding. Then, just before you go on to train the model, we'll introduce how to include a validation set. You'll then define and compile the model as before. This time, when you are presented with the `history` dictionary of the model, you will have additional data entries for not only the train and test, but the train, test and validation  and then defigning, compiling and training the model. 
-
+In this lab, you'll use the notion of training/validation/test set to get better insights of how you can mitigate your variance, and you'll look at a few regularization techniques. To do this, you'll start by repeating the process from the last section: importing the data and performing preprocessing including one-hot encoding. Then, just before you go on to train the model, you'll see how to include a validation set. You'll then define and compile the model as before. This time, when you are presented with the `history` dictionary of the model, you will have additional data entries for not only the train and test set but also the validation set.
 
 ## Objectives
 
@@ -26,11 +23,11 @@ You will be able to:
 
 ## Import the libraries
 
-As usual, start by importing some of the packages and modules that you intend to use. The first thing we'll be doing is importing the data and taking a random sample, so that should clue you in to what tools to import. If you need more tools down the line, you can always import additional packages later.
+As usual, start by importing some of the packages and modules that you intend to use. The first thing you'll be doing is importing the data and taking a random sample, so that should clue you in to what tools to import. If you need more tools down the line, you can always import additional packages later.
 
 
 ```python
-#Your code here; import some packages/modules you plan to use
+#Yyour code here; import some packages/modules you plan to use
 ```
 
 ## Load the Data
@@ -39,38 +36,38 @@ As with the previous lab, the data is stored in a file **Bank_complaints.csv**. 
 
 
 ```python
-#Your code here; load and preview the dataset
+#Yyour code here; load and preview the dataset
 ```
 
 ## Preprocessing Overview
 
-Before we begin to practice some of our new tools regarding regularization and optimization, let's practice munging some data as we did in the previous section with bank complaints. Recall some techniques:
+Before you begin to practice some of your new tools regarding regularization and optimization, let's practice munging some data as you did in the previous section with bank complaints. Recall some techniques:
 
 * Sampling in order to reduce training time (investigate model accuracy vs data size later on)
-* One-hot encoding our complaint text
-* Transforming our category labels
+* One-hot encoding your complaint text
+* Transforming your category labels
 * Train - test split
 
 ## Preprocessing: Generate a Random Sample
 
-Since we have quite a bit of data and training networks takes a substantial amount of time and resources, we will downsample in order to test our initial pipeline. Going forward, these can be interesting areas of investigation: how does our models performance change as we increase (or decrease) the size of our dataset?  
+Since you have quite a bit of data and training networks takes a substantial amount of time and resources, downsample in order to test your initial pipeline. Going forward, these can be interesting areas of investigation: how does your models performance change as you increase (or decrease) the size of your dataset?  
 
 Generate the random sample using seed 123 for consistency of results. Make your new sample have 10,000 observations.
 
 
 ```python
-#Your code here
+#Yyour code here
 ```
 
 ## Preprocessing: One-hot Encoding of the Complaints
 
-As before, we need to do some preprocessing and data manipulationg before building the neural network. Last time, we guided you through the process, and now its time for you to practice that pipeline independently.  
+As before, you need to do some preprocessing and data manipulationg before building the neural network. 
 
-Only keep 2,000 most common words and use one-hot encoding to reformat the complaints into a matrix of vectors.
+Keep the 2,000 most common words and use one-hot encoding to reformat the complaints into a matrix of vectors.
 
 
 ```python
-#Your code here; use one-hot encoding to reformat the complaints into a matrix of vectors.
+#Yyour code here; use one-hot encoding to reformat the complaints into a matrix of vectors.
 #Only keep the 2000 most common words.
 ```
 
@@ -78,7 +75,7 @@ Only keep 2,000 most common words and use one-hot encoding to reformat the compl
 
 Similarly, now transform the descriptive product labels to integers labels. After transforming them to integer labels, retransform them into a matrix of binary flags, one for each of the various product labels.  
   
-  (Note: this is similar to our previous work with dummy variables: each of the various product categories will be its own column, and each observation will be a row. Each of these observation rows will have a 1 in the column associated with it's label, and all other entries for the row will be zero.)
+> **Note**: This is similar to your previous work with dummy variables. Each of the various product categories will be its own column, and each observation will be a row. In turn, each of these observation rows will have a 1 in the column associated with it's label, and all other entries for the row will be zero.
 
 
 ```python
@@ -88,11 +85,13 @@ Similarly, now transform the descriptive product labels to integers labels. Afte
 
 ## Train-test Split
 
-Now onto the ever familiar train-test split! Be sure to split both the complaint data (now transformed into word vectors) as well as their associated labels. Perform an appropriate train test split.
+Now onto the ever familiar train-test split! 
+Below, perform an appropriate train test split.
+> Be sure to split both the complaint data (now transformed into word vectors) as well as their associated labels. 
 
 
 ```python
-#Your code here
+#Yyour code here
 X_train = 
 X_test = 
 y_train = 
@@ -103,9 +102,9 @@ y_test =
 
 ## Creating the Validation Set
 
-In the lecture we mentioned that in deep learning, we generally keep aside a validation set, which is used during hyperparameter tuning. Then when we have made the final model decision, the test set is used to define the final model perforance. 
+In the lecture, you saw that in deep learning, you generally set aside a validation set, which is then used during hyperparameter tuning. Afterwards, when you have decided upon a final model, the test can then be used to define the final model perforance. 
 
-In this example, let's take the first 1000 cases out of the training set to become the validation set. You should do this for both `train` and `label_train`.
+In this example, take the first 1000 cases out of the training set to create a validation set. You should do this for both `train` and `label_train`.
 
 
 ```python
@@ -119,11 +118,9 @@ label_train_final = y_train[1000:]
 
 ## Creating the Model
 
-Let's rebuild a fully connected (Dense) layer network with relu activations in Keras.
+Rebuild a fully connected (Dense) layer network with relu activations in Keras.
 
-Recall that we used 2 hidden with 50 units in the first layer and 25 in the second, both with a `relu` activation function. Because we are dealing with a multiclass problem (classifying the complaints into 7 classes), we use a use a softmax classifyer in order to output 7 class probabilities per case.  
-
-
+Recall that you used 2 hidden with 50 units in the first layer and 25 in the second, both with a `relu` activation function. Because you are dealing with a multiclass problem (classifying the complaints into 7 classes), use a softmax classifyer in order to output 7 class probabilities per case. 
 
 
 ```python
@@ -132,11 +129,11 @@ model =
 ```
 
 ## Compiling the Model
-In the compiler, you'll be passing the optimizer, loss function, and metrics. Train the model for 120 epochs in mini-batches of 256 samples. This time, let's include the argument `validation_data` and assign it `(val, label_val)`
+In the compiler, you'll be passing the optimizer, loss function, and metrics. Train the model for 120 epochs in mini-batches of 256 samples. This time, include the argument `validation_data` and assign it `(val, label_val)`
 
 
 ```python
-#Your code here
+#Yyour code here
 ```
 
 ## Part 2: Code Along
@@ -145,7 +142,7 @@ The remaining portion of this lab will introduce you to code snippets for a myri
 
 ## Training the Model
 
-Ok, now for the resource intensive part: time to train our model! Note that this is where we also introduce the validation data to the model.
+Ok, now for the resource intensive part: time to train your model! Note that this is where you also introduce the validation data to the model.
 
 
 ```python
@@ -214,11 +211,11 @@ results_test
 
 
 
-Note that the result isn't exactly the same as before. Note that this because the training set is slightly different! We remove 1000 instances for validation!
+Note that the result isn't exactly the same as before. Note that this because the training set is slightly different! you remove 1000 instances for validation!
 
 ## Plotting the Results
 
-Let's plot the result similarly to what we have done in the previous lab. This time though, let's include the training and the validation loss in the same plot. We'll do the same thing for the training and validation accuracy.
+Plot the loss function versus the number of epochs. Be sure to include the training and the validation loss in the same plot. Then, create a second plot comparing training and validation accuracy to the number of epochs.
 
 
 ```python
@@ -263,9 +260,11 @@ plt.show()
 ![png](index_files/index_38_0.png)
 
 
-We observe an interesting pattern here: although the training accuracy keeps increasing when going through more epochs, and the training loss keeps decreasing, the validation accuracy and loss seem to be reaching a status quo around the 60th epoch. This means that we're actually **overfitting** to the train data when we do as many epochs as we were doing. Luckily, you learned how to tackle overfitting in the previous lecture! For starters, it does seem clear that we are training too long. So let's stop training at the 60th epoch first (so-called "early stopping") before we move to more advanced regularization techniques!
+Notice an interesting pattern here: although the training accuracy keeps increasing when going through more epochs, and the training loss keeps decreasing, the validation accuracy and loss seem to be reaching a limit around the 60th epoch. This means that you're probably **overfitting** the model to the training data when you train for many epochs past this dropoff point of around 40 epochs. Luckily, you learned how to tackle overfitting in the previous lecture! Since it seems clear that you are training too long, include early stopping at the 60th epoch first.
 
 ## Early Stopping
+
+Below, observe how to update the model to include an earlier cutoff point:
 
 
 ```python
@@ -451,13 +450,13 @@ results_test
 
 
 
-We've significantly reduced the variance, so this is already pretty good! Our test set accuracy is slightly worse, but this model will definitely be more robust than the 120 epochs one we fitted before.
+We've significantly reduced the variance, so this is already pretty good! your test set accuracy is slightly worse, but this model will definitely be more robust than the 120 epochs model you originally fit.
 
-Now, let's see what else we can do to improve the result!
+Now, take a look at how regularization techniques can further improve your model performance.
 
 ## L2 Regularization
 
-Let's include L2 regularization. You can easily do this in keras adding the argument kernel_regulizers.l2 and adding a value for the regularization parameter lambda between parentheses.
+First, take a look at L2 regularization. Keras makes L2 regularization easy. Simply add the `kernel_regularizer=kernel_regulizers.l2(lamda_coeff)` parameter to any model layer. The lambda_coeff parameter determines the strength of the regularization you wish to perform.
 
 
 ```python
@@ -735,7 +734,7 @@ L2_model_dict.keys()
 
 
 
-Let's look at the training accuracy as well as the validation accuracy for both the L2 and the model without regularization (for 120 epochs).
+Now, look at the training accuracy as well as the validation accuracy for both the L2 and the model without regularization (for 120 epochs).
 
 
 ```python
@@ -762,11 +761,11 @@ plt.show()
 ![png](index_files/index_53_0.png)
 
 
-The results of L2 regularization are quite disappointing here. We notice the discrepancy between validation and training accuracy seems to have decreased slightly, but the end result is definitely not getting better. 
+The results of L2 regularization are quite disappointing here. Notice the discrepancy between validation and training accuracy seems to have decreased slightly, but the end result is definitely not getting better. 
 
 ## L1 Regularization
 
-Let's have a look at L1 regularization. Will this work better?
+Have a look at L1 regularization. Will this work better?
 
 
 ```python
@@ -1052,7 +1051,7 @@ plt.show()
 ![png](index_files/index_58_0.png)
 
 
-Notice how The training and validation accuracy don't diverge as much as before! Unfortunately, the validation accuracy doesn't reach rates much higher than 70%. It does seem like we can still improve the model by training much longer.
+Notice how the training and validation accuracy don't diverge as much as before. Unfortunately, the validation accuracy doesn't reach rates much higher than 70%. It does seem like you can still improve the model by training much longer.
 
 
 ```python
@@ -3133,7 +3132,7 @@ results_test
 
 
 
-This is about the best we've seen so far, but we were training for quite a while! Let's see if dropout regularization can do even better and/or be more efficient!
+This is about the best result you've achieved so far, but you were training for quite a while! Next, experiment with dropout regularization to see if it offers any advantages.
 
 ## Dropout Regularization
 
@@ -3600,7 +3599,7 @@ You can see here that the validation performance has improved again! the varianc
 
 ## Bigger Data?
 
-In the lecture, one of the solutions to high variance was just getting more data. We actually *have* more data, but took a subset of 10,000 units before. Let's now quadruple our data set, and see what happens. Note that we are really just lucky here, and getting more data isn't always possible, but this is a useful exercise in order to understand the power of big data sets.
+In the lecture, one of the solutions to high variance was just getting more data. You actually *have* more data, but took a subset of 10,000 units before. Let's now quadruple your data set, and see what happens. Note that you are really just lucky here, and getting more data isn't always possible, but this is a useful exercise in order to understand the power of big data sets.
 
 
 ```python
@@ -3937,7 +3936,7 @@ results_test
 
 
 
-With the same amount of epochs, we were able to get a fairly similar validation accuracy of 89.67 (compared to 88.55 in obtained in the first model in this lab). Our test set accuracy went up from 75.8 to a staggering 80.225% though, without any other regularization technique. You can still consider early stopping, L1, L2 and dropout here. It's clear that having more data has a strong impact on model performance!
+With the same amount of epochs, you were able to get a fairly similar validation accuracy of 89.67 (compared to 88.55 in obtained in the first model in this lab). your test set accuracy went up from 75.8 to a staggering 80.225% though, without any other regularization technique. You can still consider early stopping, L1, L2 and dropout here. It's clear that having more data has a strong impact on model performance!
 
 ## Additional Resources
 
@@ -3947,4 +3946,4 @@ With the same amount of epochs, we were able to get a fairly similar validation 
 
 ## Summary  
 
-In this lesson, we not only built an initial deep-learning model, we then used a validation set to tune our model using various types of regularization. From here, we'll continue to describe more practice and theory regarding tuning and optimizing deep-learning networks.
+In this lesson, you not only built an initial deep-learning model, you then used a validation set to tune your model using various types of regularization.
