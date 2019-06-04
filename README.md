@@ -1,5 +1,5 @@
 
-# Regularization and Optimization of Neural Networks - Lab
+# Tuning Neural Networks with Regularization - Lab
 
 ## Introduction
 
