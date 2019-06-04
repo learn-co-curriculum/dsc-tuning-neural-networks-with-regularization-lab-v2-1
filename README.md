@@ -1,11 +1,10 @@
 
-# Regularization and Optimization of Neural Networks - Lab
+# Tuning Neural Networks with Regularization - Lab
 
 ## Introduction
 
-Recall from the last lab that you had a training accuracy close to 90% and a test set accuracy close to 76%.
+Whenever you are evaluating a model, you should be asking a couple of questions:
 
-As with your previous machine learning work, you should be asking a couple of questions:
 - Is there a high bias? yes/no
 - Is there a high variance? yes/no 
 
