@@ -9,7 +9,7 @@ As with your previous machine learning work, you should be asking a couple of qu
 - Is there a high bias? yes/no
 - Is there a high variance? yes/no 
 
-In this lab, you'll use the notion of training/validation/test set to get better insights of how you can mitigate your variance, and you'll look at a few regularization techniques. To do this, you'll start by repeating the process from the last section: importing the data and performing preprocessing including one-hot encoding. Then, just before you go on to train the model, you'll see how to include a validation set. You'll then define and compile the model as before. This time, when you are presented with the `history` dictionary of the model, you will have additional data entries for not only the train and test set but also the validation set.
+In this lab, you'll use the a train-validate-test partition to get better insights of how to tune neural networks using regularization techniques. You'll start by repeating the process from the last section: importing the data and performing preprocessing including one-hot encoding. Then, just before you go on to train the model, you'll see how to include a validation set. From there, you'll define and compile the model like before. However, this time, when you are presented with the `history` dictionary of the model, you will have additional data entries for not only the train and test set but also the validation set.
 
 ## Objectives
 
