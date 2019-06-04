@@ -136,10 +136,6 @@ In the compiler, you'll be passing the optimizer, loss function, and metrics. Tr
 #Yyour code here
 ```
 
-## Part 2: Code Along
-
-The remaining portion of this lab will introduce you to code snippets for a myriad of different methods discussed in the lecture.
-
 ## Training the Model
 
 Ok, now for the resource intensive part: time to train your model! Note that this is where you also introduce the validation data to the model.
@@ -237,7 +233,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_37_0.png)
+![png](index_files/index_36_0.png)
 
 
 
@@ -257,7 +253,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_38_0.png)
+![png](index_files/index_37_0.png)
 
 
 Notice an interesting pattern here: although the training accuracy keeps increasing when going through more epochs, and the training loss keeps decreasing, the validation accuracy and loss seem to be reaching a limit around the 60th epoch. This means that you're probably **overfitting** the model to the training data when you train for many epochs past this dropoff point of around 40 epochs. Luckily, you learned how to tackle overfitting in the previous lecture! Since it seems clear that you are training too long, include early stopping at the 60th epoch first.
@@ -758,7 +754,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_53_0.png)
+![png](index_files/index_52_0.png)
 
 
 The results of L2 regularization are quite disappointing here. Notice the discrepancy between validation and training accuracy seems to have decreased slightly, but the end result is definitely not getting better. 
@@ -1048,7 +1044,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_58_0.png)
+![png](index_files/index_57_0.png)
 
 
 Notice how the training and validation accuracy don't diverge as much as before. Unfortunately, the validation accuracy doesn't reach rates much higher than 70%. It does seem like you can still improve the model by training much longer.
@@ -3094,7 +3090,7 @@ plt.show()
 ```
 
 
-![png](index_files/index_61_0.png)
+![png](index_files/index_60_0.png)
 
 
 
