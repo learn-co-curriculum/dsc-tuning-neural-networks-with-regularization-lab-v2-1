@@ -18,7 +18,7 @@ You will be able to:
 * Construct and run a basic model in Keras
 * Construct a validation set and explain potential benefits
 * Apply L1 and L2 regularization
-* Aplly dropout regularization
+* Apply dropout regularization
 * Observe and comment on the effect of using more data
 
 ## Import the libraries
