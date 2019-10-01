@@ -1402,6 +1402,7 @@ Notice how the training and validation accuracy don't diverge as much as before.
 
 
 ```python
+# ⏰ This cell may take several minutes to run
 random.seed(123)
 model = models.Sequential()
 model.add(layers.Dense(50, activation='relu',kernel_regularizer=regularizers.l1(0.005), input_shape=(2000,))) #2 hidden layers
@@ -3485,6 +3486,7 @@ This is about the best result you've achieved so far, but you were training for 
 
 
 ```python
+# ⏰ This cell may take about a minute to run
 random.seed(123)
 model = models.Sequential()
 model.add(layers.Dropout(0.3, input_shape=(2000,)))
@@ -3989,6 +3991,7 @@ label_train_final = label_train[3000:]
 
 
 ```python
+# ⏰ This cell may take several minutes to run
 random.seed(123)
 model = models.Sequential()
 model.add(layers.Dense(50, activation='relu', input_shape=(2000,))) #2 hidden layers
