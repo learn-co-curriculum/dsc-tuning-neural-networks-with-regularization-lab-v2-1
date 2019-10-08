@@ -686,7 +686,7 @@ model.metrics_names
 
 The first element of the list returned by `model.evaluate` is the loss, and the second is the accuracy score. 
 
-Note that the result you obtained here isn't exactly the same as before. This because the training set is slightly different! You removed 1000 instances for validation!
+Note that the result you obtained here isn't exactly the same as before. This is because the training set is slightly different! You removed 1000 instances for validation!
 
 ## Plotting the Results
 
@@ -1700,6 +1700,7 @@ Notice how the training and validation accuracy don't diverge as much as before.
 
 
 ```python
+# ⏰ This cell may take several minutes to run
 random.seed(123)
 model = models.Sequential()
 model.add(layers.Dense(50, activation='relu',kernel_regularizer=regularizers.l1(0.005), input_shape=(2000,))) #2 hidden layers
@@ -1755,6 +1756,7 @@ results_test
 
 ```python
 # __SOLUTION__ 
+# ⏰ This cell may take several minutes to run
 random.seed(123)
 model = models.Sequential()
 model.add(layers.Dense(50, activation='relu',kernel_regularizer=regularizers.l1(0.005), input_shape=(2000,))) #2 hidden layers
@@ -3775,6 +3777,7 @@ L1_model = model.fit(train_final,
     7500/7500 [==============================] - 0s 15us/step - loss: 0.8137 - acc: 0.8087 - val_loss: 0.8996 - val_acc: 0.7790
 
 
+
 ```python
 # __SOLUTION__ 
 L1_model_dict = L1_model.history
@@ -3841,6 +3844,7 @@ This is about the best result you've achieved so far, but you were training for 
 
 
 ```python
+# ⏰ This cell may take about a minute to run
 random.seed(123)
 model = models.Sequential()
 model.add(layers.Dropout(0.3, input_shape=(2000,)))
