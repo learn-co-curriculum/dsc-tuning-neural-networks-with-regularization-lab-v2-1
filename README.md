@@ -3775,7 +3775,6 @@ L1_model = model.fit(train_final,
     7500/7500 [==============================] - 0s 15us/step - loss: 0.8137 - acc: 0.8087 - val_loss: 0.8996 - val_acc: 0.7790
 
 
-
 ```python
 # __SOLUTION__ 
 L1_model_dict = L1_model.history
@@ -3881,6 +3880,7 @@ results_test
 
 ```python
 # __SOLUTION__ 
+# ⏰ This cell may take about a minute to run
 random.seed(123)
 model = models.Sequential()
 model.add(layers.Dropout(0.3, input_shape=(2000,)))
@@ -4388,6 +4388,7 @@ label_train_final = label_train[3000:]
 
 
 ```python
+# ⏰ This cell may take several minutes to run
 random.seed(123)
 model = models.Sequential()
 model.add(layers.Dense(50, activation='relu', input_shape=(2000,))) #2 hidden layers
@@ -4464,6 +4465,7 @@ label_train_final = label_train[3000:]
 
 ```python
 # __SOLUTION__ 
+# ⏰ This cell may take several minutes to run
 random.seed(123)
 model = models.Sequential()
 model.add(layers.Dense(50, activation='relu', input_shape=(2000,))) #2 hidden layers
