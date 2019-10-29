@@ -6,10 +6,10 @@
 Recall from the last lab that you had a training accuracy close to 90% and a test set accuracy close to 76%.
 
 As with your previous machine learning work, you should be asking a couple of questions:
-- Is there a high bias? yes/no
-- Is there a high variance? yes/no 
+- Is there high bias? yes/no
+- Is there high variance? yes/no 
 
-In this lab, you'll use the a train-validate-test partition to get better insights of how to tune neural networks using regularization techniques. You'll start by repeating the process from the last section: importing the data and performing preprocessing including one-hot encoding. Then, just before you go on to train the model, you'll see how to include a validation set. From there, you'll define and compile the model like before. However, this time, when you are presented with the `history` dictionary of the model, you will have additional data entries for not only the train and test set but also the validation set.
+In this lab, you'll use the a train-validate-test partition as well as a validation set to get better insights of how to tune neural networks using regularization techniques. You'll start by repeating the process from the last section: importing the data and performing preprocessing including one-hot encoding. From there, you'll define and compile the model like before. However, this time, when you are presented with the `history` dictionary of the model, you will have additional data entries for not only the train and test set but also the validation set.
 
 ## Objectives
 
@@ -43,10 +43,10 @@ As with the previous lab, the data is stored in a file **Bank_complaints.csv**. 
 
 Before you begin to practice some of your new tools regarding regularization and optimization, let's practice munging some data as you did in the previous section with bank complaints. Recall some techniques:
 
+* Train - test split
 * Sampling in order to reduce training time (investigate model accuracy vs data size later on)
 * One-hot encoding your complaint text
 * Transforming your category labels
-* Train - test split
 
 ## Preprocessing: Generate a Random Sample
 
@@ -57,6 +57,34 @@ Generate the random sample using seed 123 for consistency of results. Make your 
 
 ```python
 #Your code here
+```
+
+## Train-test Split
+
+Below, perform an appropriate train test split.
+
+
+```python
+#Yyour code here
+X_train = 
+X_test = 
+y_train = 
+y_test = 
+```
+
+## Running the model using a validation set.
+
+## Creating the Validation Set
+
+In the lecture, you saw that in deep learning, you generally set aside a validation set, which is then used during hyperparameter tuning. Afterwards, when you have decided upon a final model, the test can then be used to define the final model perforance. 
+
+In this example, take the first 1000 cases out of the training set to create a validation set. You should do this for both `train` and `label_train`.
+
+
+```python
+#Just run this block of code 
+
+X_train_final, X_val, y_train_final, y_val = train_test_split(X_train, y_train, test_size=1000, random_state=123)
 ```
 
 ## Preprocessing: One-hot Encoding of the Complaints
@@ -81,39 +109,6 @@ Similarly, now transform the descriptive product labels to integers labels. Afte
 ```python
 #Your code here; transform the product labels to numerical values
 #Then transform these integer values into a matrix of binary flags
-```
-
-## Train-test Split
-
-Now onto the ever familiar train-test split! 
-Below, perform an appropriate train test split.
-> Be sure to split both the complaint data (now transformed into word vectors) as well as their associated labels. 
-
-
-```python
-#Yyour code here
-X_train = 
-X_test = 
-y_train = 
-y_test = 
-```
-
-## Running the model using a validation set.
-
-## Creating the Validation Set
-
-In the lecture, you saw that in deep learning, you generally set aside a validation set, which is then used during hyperparameter tuning. Afterwards, when you have decided upon a final model, the test can then be used to define the final model perforance. 
-
-In this example, take the first 1000 cases out of the training set to create a validation set. You should do this for both `train` and `label_train`.
-
-
-```python
-#Just run this block of code 
-random.seed(123)
-val = X_train[:1000]
-train_final = X_train[1000:]
-label_val = y_train[:1000]
-label_train_final = y_train[1000:]
 ```
 
 ## Creating the Model
@@ -143,11 +138,11 @@ Ok, now for the resource intensive part: time to train your model! Note that thi
 
 ```python
 #Code provided; note the extra validation parameter passed.
-model_val = model.fit(train_final,
-                    label_train_final,
+model_val = model.fit(X_train_tok,
+                    y_train_lb,
                     epochs=120,
                     batch_size=256,
-                    validation_data=(val, label_val))
+                    validation_data=(X_val, y_val))
 ```
 
 ## Retrieving Performance Results: the `history` dictionary
@@ -162,25 +157,20 @@ model_val_dict.keys()
 
 
 ```python
-results_train = model.evaluate(train_final, label_train_final)
+results_train = model.evaluate(X_train_tok, y_train_lb)
+print(f'Training Loss: {results_train[0]:.3} Training Accuracy: {results_train[1]:.3}')
 ```
+
+## Preprocess then evaluate our models performance on the test set
 
 
 ```python
-results_test = model.evaluate(X_test, y_test)
+X_test_tok = tokenizer.texts_to_matrix(X_test, mode='binary')
+y_test_cat = to_categorical(lb.transform(y_test))[:, :, 1]
+
+results_test = model.evaluate(X_test_tok, y_test_cat)
+print(f'Testing Loss: {results_test[0]:.3} Testing Accuracy: {results_test[1]:.3}')
 ```
-
-
-```python
-results_train
-```
-
-
-```python
-results_test
-```
-
-To interpret these results, run the cell below:
 
 
 ```python
@@ -197,37 +187,12 @@ Plot the loss function versus the number of epochs. Be sure to include the train
 
 
 ```python
-plt.clf()
-
-import matplotlib.pyplot as plt
-loss_values = model_val_dict['loss']
-val_loss_values = model_val_dict['val_loss']
-
-epochs = range(1, len(loss_values) + 1)
-plt.plot(epochs, loss_values, 'g', label='Training loss')
-plt.plot(epochs, val_loss_values, 'blue', label='Validation loss')
-
-plt.title('Training & validation loss')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.legend()
-plt.show()
+# Loss vs number of epochs with train and val set
 ```
 
 
 ```python
-plt.clf()
-
-acc_values = model_val_dict['acc'] 
-val_acc_values = model_val_dict['val_acc']
-
-plt.plot(epochs, acc_values, 'r', label='Training acc')
-plt.plot(epochs, val_acc_values, 'blue', label='Validation acc')
-plt.title('Training & validation accuracy')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.legend()
-plt.show()
+# Accuracy vs number of epochs with train and val set
 ```
 
 Notice an interesting pattern here: although the training accuracy keeps increasing when going through more epochs, and the training loss keeps decreasing, the validation accuracy and loss seem to be reaching a limit around the 60th epoch. This means that you're probably **overfitting** the model to the training data when you train for many epochs past this dropoff point of around 40 epochs. Luckily, you learned how to tackle overfitting in the previous lecture! Since it seems clear that you are training too long, include early stopping at the 60th epoch first.
@@ -248,33 +213,22 @@ model.compile(optimizer='SGD',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-final_model = model.fit(train_final,
-                    label_train_final,
+final_model = model.fit(X_train_tok,
+                    y_train_lb,
                     epochs=60,
                     batch_size=256,
-                    validation_data=(val, label_val))
+                    validation_data=(X_val, y_val))
 ```
 
 Now, you can use the test set to make label predictions
 
 
 ```python
-results_train = model.evaluate(train_final, label_train_final)
-```
+results_train = model.evaluate(X_train_tok, y_train_lb)
+print(f'Training Loss: {results_train[0]:.3} Training Accuracy: {results_train[1]:.3}')
 
-
-```python
-results_test = model.evaluate(X_test, y_test)
-```
-
-
-```python
-results_train
-```
-
-
-```python
-results_test
+results_test = model.evaluate(X_test_tok, y_test_cat)
+print(f'Testing Loss: {results_test[0]:.3} Testing Accuracy: {results_test[1]:.3}')
 ```
 
 We've significantly reduced the variance, so this is already pretty good! your test set accuracy is slightly worse, but this model will definitely be more robust than the 120 epochs model you originally fit.
@@ -298,11 +252,11 @@ model.compile(optimizer='SGD',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-L2_model = model.fit(train_final,
-                    label_train_final,
+L2_model = model.fit(X_train_tok,
+                    y_train_lb,
                     epochs=120,
                     batch_size=256,
-                    validation_data=(val, label_val))
+                    validation_data=(X_val, y_val))
 ```
 
 
@@ -315,23 +269,22 @@ Now, look at the training accuracy as well as the validation accuracy for both t
 
 
 ```python
-plt.clf()
+fig, ax = plt.subplots(figsize=(12, 8))
 
-acc_values = L2_model_dict['acc'] 
-val_acc_values = L2_model_dict['val_acc']
-model_acc = model_val_dict['acc']
-model_val_acc = model_val_dict['val_acc']
+acc_values = L2_model_dict['accuracy'] 
+val_acc_values = L2_model_dict['val_accuracy']
+model_acc = model_val_dict['accuracy']
+model_val_acc = model_val_dict['val_accuracy']
 
 epochs = range(1, len(acc_values) + 1)
-plt.plot(epochs, acc_values, 'g', label='Training acc L2')
-plt.plot(epochs, val_acc_values, 'g', label='Validation acc L2')
-plt.plot(epochs, model_acc, 'r', label='Training acc')
-plt.plot(epochs, model_val_acc, 'r', label='Validation acc')
-plt.title('Training & validation accuracy L2 vs regular')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.legend()
-plt.show()
+ax.plot(epochs, acc_values, label='Training acc L2')
+ax.plot(epochs, val_acc_values, label='Validation acc L2')
+ax.plot(epochs, model_acc, label='Training acc')
+ax.plot(epochs, model_val_acc, label='Validation acc')
+ax.set_title('Training & validation accuracy L2 vs regular')
+ax.set_xlabel('Epochs')
+ax.set_ylabel('Loss')
+ax.legend();
 ```
 
 The results of L2 regularization are quite disappointing here. Notice the discrepancy between validation and training accuracy seems to have decreased slightly, but the end result is definitely not getting better. 
@@ -352,29 +305,29 @@ model.compile(optimizer='SGD',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-L1_model = model.fit(train_final,
-                    label_train_final,
+L1_model = model.fit(X_train_tok,
+                    y_train_lb,
                     epochs=120,
                     batch_size=256,
-                    validation_data=(val, label_val))
+                    validation_data=(X_val, y_val))
 ```
 
 
 ```python
-L1_model_dict = L1_model.history
-plt.clf()
+fig, ax = plt.subplots(figsize=(12, 8))
 
-acc_values = L1_model_dict['acc'] 
-val_acc_values = L1_model_dict['val_acc']
+L1_model_dict = L1_model.history
+
+acc_values = L1_model_dict['accuracy'] 
+val_acc_values = L1_model_dict['val_accuracy']
 
 epochs = range(1, len(acc_values) + 1)
-plt.plot(epochs, acc_values, 'g', label='Training acc L1')
-plt.plot(epochs, val_acc_values, 'g.', label='Validation acc L1')
-plt.title('Training & validation accuracy with L1 regularization')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.legend()
-plt.show()
+ax.plot(epochs, acc_values, label='Training acc L1')
+ax.plot(epochs, val_acc_values, label='Validation acc L1')
+ax.set_title('Training & validation accuracy with L1 regularization')
+ax.set_xlabel('Epochs')
+ax.set_ylabel('Loss')
+ax.legend();
 ```
 
 Notice how the training and validation accuracy don't diverge as much as before. Unfortunately, the validation accuracy doesn't reach rates much higher than 70%. It does seem like you can still improve the model by training much longer.
@@ -392,46 +345,38 @@ model.compile(optimizer='SGD',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-L1_model = model.fit(train_final,
-                    label_train_final,
+L1_model = model.fit(X_train_tok,
+                    y_train_lb,
                     epochs=1000,
                     batch_size=256,
-                    validation_data=(val, label_val))
+                    validation_data=(X_val, y_val))
 ```
 
 
 ```python
-L1_model_dict = L1_model.history
-plt.clf()
+fig, ax = plt.subplots(figsize=(12, 8))
 
-acc_values = L1_model_dict['acc'] 
-val_acc_values = L1_model_dict['val_acc']
+L1_model_dict = L1_model.history
+
+acc_values = L1_model_dict['accuracy'] 
+val_acc_values = L1_model_dict['val_accuracy']
 
 epochs = range(1, len(acc_values) + 1)
-plt.plot(epochs, acc_values, 'g', label='Training acc L1')
-plt.plot(epochs, val_acc_values, 'g,', label='Validation acc L1')
-plt.title('Training & validation accuracy L2 vs regular')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.legend()
-plt.show()
+ax.plot(epochs, acc_values, label='Training acc L1')
+ax.plot(epochs, val_acc_values, label='Validation acc L1')
+ax.set_title('Training & validation accuracy L2 vs regular')
+ax.set_xlabel('Epochs')
+ax.set_ylabel('Loss')
+ax.legend();
 ```
 
 
 ```python
-results_train = model.evaluate(train_final, label_train_final)
+results_train = model.evaluate(X_train_tok, y_train_lb)
+print(f'Training Loss: {results_train[0]:.3} Training Accuracy: {results_train[1]:.3}')
 
-results_test = model.evaluate(X_test, y_test)
-```
-
-
-```python
-results_train
-```
-
-
-```python
-results_test
+results_test = model.evaluate(X_test_tok, y_test_cat)
+print(f'Testing Loss: {results_test[0]:.3} Testing Accuracy: {results_test[1]:.3}')   
 ```
 
 This is about the best result you've achieved so far, but you were training for quite a while! Next, experiment with dropout regularization to see if it offers any advantages.
@@ -454,27 +399,20 @@ model.compile(optimizer='SGD',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-dropout_model = model.fit(train_final,
-                    label_train_final,
+dropout_model = model.fit(X_train_tok,
+                    y_train_lb,
                     epochs=200,
                     batch_size=256,
-                    validation_data=(val, label_val))
+                    validation_data=(X_val, y_val))
 ```
 
 
 ```python
-results_train = model.evaluate(train_final, label_train_final)
-results_test = model.evaluate(X_test, y_test)
-```
+results_train = model.evaluate(X_train_tok, y_train_lb)
+print(f'Training Loss: {results_train[0]:.3} Training Accuracy: {results_train[1]:.3}')
 
-
-```python
-results_train
-```
-
-
-```python
-results_test
+results_test = model.evaluate(X_test_tok, y_test_cat)
+print(f'Testing Loss: {results_test[0]:.3} Testing Accuracy: {results_test[1]:.3}')   
 ```
 
 You can see here that the validation performance has improved again! The variance did become higher again compared to L1-regularization.
@@ -486,40 +424,33 @@ In the lecture, one of the solutions to high variance was just getting more data
 
 ```python
 df = pd.read_csv('Bank_complaints.csv')
-random.seed(123)
-df = df.sample(40000)
-df.index = range(40000)
-product = df["Product"]
-complaints = df["Consumer complaint narrative"]
+df = df.sample(40000, random_state=123)
+
+X = df["Consumer complaint narrative"]
+y = df["Product"]
+
+# train test split
+X_train_lrg, X_test_lrg, y_train_lrg, y_test_lrg = train_test_split(X, y, random_state=42)
+
+#Validation set
+X_train_final_lrg, X_val_lrg, y_train_final_lrg, y_val_lrg = train_test_split(X_train_lrg, y_train_lrg, random_state=123)
+
 
 #one-hot encoding of the complaints
 tokenizer = Tokenizer(num_words=2000)
-tokenizer.fit_on_texts(complaints)
-sequences = tokenizer.texts_to_sequences(complaints)
-one_hot_results= tokenizer.texts_to_matrix(complaints, mode='binary')
-word_index = tokenizer.word_index
-np.shape(one_hot_results)
+tokenizer.fit_on_texts(X_train_final_lrg)
+
+X_train_tok_lrg = tokenizer.texts_to_matrix(X_train_final_lrg, mode='binary')
+X_val_lrg = tokenizer.texts_to_matrix(X_val_lrg, mode='binary')
+X_test_lrg = tokenizer.texts_to_matrix(X_test_lrg, mode='binary')
 
 #one-hot encoding of products
-le = preprocessing.LabelEncoder()
-le.fit(product)
-list(le.classes_)
-product_cat = le.transform(product) 
-product_onehot = to_categorical(product_cat)
+lb = LabelBinarizer()
+lb.fit(y_train_final_lrg)
 
-# train test split
-test_index = random.sample(range(1,40000), 4000)
-test = one_hot_results[test_index]
-train = np.delete(one_hot_results, test_index, 0)
-label_test = product_onehot[test_index]
-label_train = np.delete(product_onehot, test_index, 0)
-
-#Validation set
-random.seed(123)
-val = train[:3000]
-train_final = train[3000:]
-label_val = label_train[:3000]
-label_train_final = label_train[3000:]
+y_train_lb_lrg = to_categorical(lb.transform(y_train_final_lrg))[:, :, 1]
+y_val_lrg = to_categorical(lb.transform(y_val_lrg))[:, :, 1]
+y_test_lrg = to_categorical(lb.transform(y_test_lrg))[:, :, 1]
 ```
 
 
@@ -535,30 +466,23 @@ model.compile(optimizer='SGD',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-moredata_model = model.fit(train_final,
-                    label_train_final,
+moredata_model = model.fit(X_train_tok_lrg,
+                    y_train_lb_lrg,
                     epochs=120,
                     batch_size=256,
-                    validation_data=(val, label_val))
+                    validation_data=(X_val_lrg, y_val_lrg))
 ```
 
 
 ```python
-results_train = model.evaluate(train_final, label_train_final)
-results_test = model.evaluate(test, label_test)
+results_train = model.evaluate(X_train_tok_lrg, y_train_lb_lrg)
+print(f'Training Loss: {results_train[0]:.3} Training Accuracy: {results_train[1]:.3}')
+
+results_test = model.evaluate(X_test_lrg, y_test_lrg)
+print(f'Testing Loss: {results_test[0]:.3} Testing Accuracy: {results_test[1]:.3}')
 ```
 
-
-```python
-results_train
-```
-
-
-```python
-results_test
-```
-
-With the same amount of epochs, you were able to get a fairly similar validation accuracy of 89.67 (compared to 88.45 in obtained in the first model in this lab). Your test set accuracy went up from 75.8 to a staggering 80.225% though, without any other regularization technique. You can still consider early stopping, L1, L2 and dropout here. It's clear that having more data has a strong impact on model performance!
+With the same amount of epochs, you were able to get a fairly similar validation accuracy of 89.67 (compared to 88.45 in obtained in the first model in this lab). Your test set accuracy went up from 75.8 to 79.2% though, without any other regularization technique. You can still consider early stopping, L1, L2 and dropout here. It's clear that having more data has a strong impact on model performance!
 
 ## Additional Resources
 
