@@ -1695,7 +1695,16 @@ ax.legend();
 Notice how the training and validation accuracy don't diverge as much as before. Unfortunately, the validation accuracy isn't still that good. Next, experiment with dropout regularization to see if it offers any advantages. 
 
 
-## Dropout Regularization
+## Dropout Regularization 
+
+It's time to try another technique: applying dropout to layers. As discussed in the earlier lesson, this involves setting a certain proportion of units in each layer to zero. In the following cell: 
+
+- Apply a dropout rate of 30% to the input layer 
+- Add a first hidden layer with 50 units and `'relu'` activation 
+- Apply a dropout rate of 30% to the first hidden layer 
+- Add a second hidden layer with 25 units and `'relu'` activation 
+- Apply a dropout rate of 30% to the second hidden layer 
+
 
 
 ```python
