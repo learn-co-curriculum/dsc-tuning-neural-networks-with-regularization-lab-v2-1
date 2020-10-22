@@ -31,7 +31,7 @@ from sklearn.preprocessing import LabelBinarizer
 from keras.preprocessing.text import Tokenizer
 
 import warnings
-warnings.filterwarnings('ignore')
+warnings.filterwarnings(action='ignore', category=FutureWarning)
 ```
 
 The data is stored in the file `'Bank_complaints.csv'`. Load and preview the dataset.
@@ -237,7 +237,7 @@ model_2.add(layers.Dense(7, activation='softmax'))
 
 model_2.compile(optimizer='SGD', 
                 loss='categorical_crossentropy', 
-                metrics=['accuracy'])
+                metrics=['acc'])
 ```
 
 - Import `EarlyStopping` and `ModelCheckpoint` from `keras.callbacks` 
@@ -315,7 +315,7 @@ L2_model.add(layers.Dense(7, activation='softmax'))
 # Compile the model
 L2_model.compile(optimizer='SGD', 
                  loss='categorical_crossentropy', 
-                 metrics=['accuracy'])
+                 metrics=['acc'])
 
 # Train the model 
 L2_model_val = L2_model.fit(X_train_tokens, 
@@ -347,7 +347,7 @@ ax.plot(epochs, baseline_model_acc, label='Training acc')
 ax.plot(epochs, baseline_model_val_acc, label='Validation acc')
 ax.set_title('Training & validation accuracy L2 vs regular')
 ax.set_xlabel('Epochs')
-ax.set_ylabel('Loss')
+ax.set_ylabel('Accuracy')
 ax.legend();
 ```
 
@@ -378,7 +378,7 @@ L1_model.add(layers.Dense(7, activation='softmax'))
 # Compile the model
 L1_model.compile(optimizer='SGD', 
                  loss='categorical_crossentropy', 
-                 metrics=['accuracy'])
+                 metrics=['acc'])
 
 # Train the model 
 L1_model_val = L1_model.fit(X_train_tokens, 
@@ -404,7 +404,7 @@ ax.plot(epochs, acc_values, label='Training acc L1')
 ax.plot(epochs, val_acc_values, label='Validation acc L1')
 ax.set_title('Training & validation accuracy with L1 regularization')
 ax.set_xlabel('Epochs')
-ax.set_ylabel('Loss')
+ax.set_ylabel('Accuracy')
 ax.legend();
 ```
 
@@ -451,7 +451,7 @@ dropout_model.add(layers.Dense(7, activation='softmax'))
 # Compile the model
 dropout_model.compile(optimizer='SGD', 
                       loss='categorical_crossentropy', 
-                      metrics=['accuracy'])
+                      metrics=['acc'])
 
 # Train the model
 dropout_model_val = dropout_model.fit(X_train_tokens, 
@@ -526,7 +526,7 @@ bigger_data_model.add(layers.Dense(7, activation='softmax'))
 
 bigger_data_model.compile(optimizer='SGD', 
                           loss='categorical_crossentropy', 
-                          metrics=['accuracy'])
+                          metrics=['acc'])
 
 bigger_data_model_val = bigger_data_model.fit(X_train_tokens_bigger,  
                                               y_train_lb_bigger,  
