@@ -1,4 +1,3 @@
-
 # Tuning Neural Networks with Regularization - Lab 
 
 ## Introduction
@@ -463,12 +462,12 @@ dropout_model_val = dropout_model.fit(X_train_tokens,
 
 
 ```python
-results_train = model.evaluate(X_train_tokens, y_train_lb)
+results_train = dropout_model.evaluate(X_train_tokens, y_train_lb)
 print(f'Training Loss: {results_train[0]:.3} \nTraining Accuracy: {results_train[1]:.3}')
 
 print('----------')
 
-results_test = model.evaluate(X_test_tokens, y_test_lb)
+results_test = dropout_model.evaluate(X_test_tokens, y_test_lb)
 print(f'Test Loss: {results_test[0]:.3} \nTest Accuracy: {results_test[1]:.3}') 
 ```
 
