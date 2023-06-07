@@ -1,4 +1,3 @@
-
 # Tuning Neural Networks with Regularization - Lab 
 
 ## Introduction
@@ -743,7 +742,9 @@ ax.legend();
 ```
 
 
+    
 ![png](index_files/index_41_0.png)
+    
 
 
 Create a second plot comparing training and validation accuracy to the number of epochs. 
@@ -770,7 +771,9 @@ ax.legend();
 ```
 
 
+    
 ![png](index_files/index_44_0.png)
+    
 
 
 Did you notice an interesting pattern here? Although the training accuracy keeps increasing when going through more epochs, and the training loss keeps decreasing, the validation accuracy and loss don't necessarily do the same. After a certain point, validation accuracy keeps swinging, which means that you're probably **overfitting** the model to the training data when you train for many epochs past a certain dropoff point. Let's tackle this now. You will now specify an early stopping point when training your model. 
@@ -1541,7 +1544,9 @@ ax.legend();
 ```
 
 
+    
 ![png](index_files/index_65_0.png)
+    
 
 
 The results of L2 regularization are quite disappointing here. Notice the discrepancy between validation and training accuracy seems to have decreased slightly, but the end result is definitely not getting better.  
@@ -1951,7 +1956,9 @@ ax.legend();
 ```
 
 
+    
 ![png](index_files/index_71_0.png)
+    
 
 
 Notice how the training and validation accuracy don't diverge as much as before. Unfortunately, the validation accuracy isn't still that good. Next, experiment with dropout regularization to see if it offers any advantages. 
@@ -2351,12 +2358,12 @@ dropout_model_val = dropout_model.fit(X_train_tokens,
 
 
 ```python
-results_train = model.evaluate(X_train_tokens, y_train_lb)
+results_train = dropout_model.evaluate(X_train_tokens, y_train_lb)
 print(f'Training Loss: {results_train[0]:.3} \nTraining Accuracy: {results_train[1]:.3}')
 
 print('----------')
 
-results_test = model.evaluate(X_test_tokens, y_test_lb)
+results_test = dropout_model.evaluate(X_test_tokens, y_test_lb)
 print(f'Test Loss: {results_test[0]:.3} \nTest Accuracy: {results_test[1]:.3}') 
 ```
 
