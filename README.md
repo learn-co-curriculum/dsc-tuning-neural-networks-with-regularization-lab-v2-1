@@ -1,4 +1,3 @@
-
 # Tuning Neural Networks with Regularization - Lab 
 
 ## Introduction
@@ -611,7 +610,9 @@ ax.legend();
 ```
 
 
+    
 ![png](index_files/index_27_0.png)
+    
 
 
 Create a second plot comparing training and validation accuracy to the number of epochs. 
@@ -632,7 +633,9 @@ ax.legend();
 ```
 
 
+    
 ![png](index_files/index_29_0.png)
+    
 
 
 Did you notice an interesting pattern here? Although the training accuracy keeps increasing when going through more epochs, and the training loss keeps decreasing, the validation accuracy and loss don't necessarily do the same. After a certain point, validation accuracy keeps swinging, which means that you're probably **overfitting** the model to the training data when you train for many epochs past a certain dropoff point. Let's tackle this now. You will now specify an early stopping point when training your model. 
@@ -1298,7 +1301,9 @@ ax.legend();
 ```
 
 
+    
 ![png](index_files/index_43_0.png)
+    
 
 
 The results of L2 regularization are quite disappointing here. Notice the discrepancy between validation and training accuracy seems to have decreased slightly, but the end result is definitely not getting better.  
@@ -1661,7 +1666,9 @@ ax.legend();
 ```
 
 
+    
 ![png](index_files/index_47_0.png)
+    
 
 
 Notice how the training and validation accuracy don't diverge as much as before. Unfortunately, the validation accuracy isn't still that good. Next, experiment with dropout regularization to see if it offers any advantages. 
