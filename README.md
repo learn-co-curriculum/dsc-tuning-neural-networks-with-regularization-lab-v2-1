@@ -668,7 +668,7 @@ baseline_model_val_dict.keys()
 
 
 
-Evaluate this model on the training data: 
+Evaluate this model on the training data; you may get an memory allocation warning here and/or further down, which is nothing to worry about: 
 
 
 ```python
